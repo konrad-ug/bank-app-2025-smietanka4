@@ -15,6 +15,21 @@ class Account:
         if promo_code and len(promo_code) == 8:
             prefix = promo_code[:5]
             if prefix == "PROM_":
-                self.balance = 50.0
-                return self.balance
+                if self.is_elgible_for_promotion(self.pesel):
+                    self.balance = 50.0
+                    return self.balance
+            
+    def is_elgible_for_promotion(self, pesel):
+        if not self.is_pesel_valid(pesel):
+            return False
+        year_prefix=int(pesel[:2])
+        century_code = int(pesel[2])
+        if century_code < 2:
+            birth_year = 1900 + year_prefix
+        else:
+            birth_year = 2000 + year_prefix
+        return birth_year > 1960
+
+
+
 

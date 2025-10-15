@@ -1,6 +1,5 @@
 from src.account import Account
 
-
 class TestAccount:
     def test_account_creation(self):
         account = Account("John", "Doe",'12345678911')
@@ -21,18 +20,27 @@ class TestAccount:
         account = Account("John", "Doe",'')
         assert account.pesel == 'Invalid'
 
-    def test_discount_correct(self):
+    def test_promotion_correct(self):
         account = Account("John", "Doe", '12345678911', 'PROM_XYZ')
         assert account.balance == 50.0
-        
 
-    def test_discount_wrong_format_too_long(self):
+    def test_promotion_wrong_format_too_long(self):
         account = Account("John", "Doe", '12345678911', "PROM_XYZABC")
         assert account.balance == 0.0
 
-    def test_discount_wrong_format_too_short(self):
+    def test_promotion_wrong_format_too_short(self):
         account = Account("John", "Doe", '12345678911', "PROM_A")        
         assert account.balance == 0.0
+
+    def test_promotion_correct_but_too_old(self):
+        account = Account("John", "Doe", '59010112345', 'PROM_XYZ')
+        assert account.balance == 0.0
+
+    def test_promotion_correct_but_after_2000s(self):
+        account = Account("John", "Doe", '02210112345', 'PROM_XYZ')
+        assert account.balance == 50.0
+
+
 
     
 
