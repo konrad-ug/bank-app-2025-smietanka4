@@ -32,6 +32,10 @@ class PersonalAccount(Account):
         else:
             birth_year = 2000 + year_prefix
         return birth_year > 1960
+    
+    def outgoing_express_transfer(self, amount):
+        fee = 1.0
+        return super().outgoing_express_transfer(amount, fee)
 
             
 

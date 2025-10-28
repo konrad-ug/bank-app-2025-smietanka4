@@ -10,3 +10,7 @@ class CompanyAccount(Account):
         if nip and len(nip) == 10:
             return True
         return False
+    
+    def outgoing_express_transfer(self, amount):
+        fee = 5.0
+        return super().outgoing_express_transfer(amount, fee)

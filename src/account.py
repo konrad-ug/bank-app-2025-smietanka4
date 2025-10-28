@@ -14,3 +14,16 @@ class Account:
         if amount <= 0:
             return self.balance
         self.balance += amount
+
+    def outgoing_express_transfer(self, amount: float, fee: float):
+        if amount <= 0:
+            return self.balance
+        
+        total = amount + fee
+
+        if self.balance >= amount or self.balance + fee >= amount:
+            self.balance -= total
+            return self.balance
+        else:
+            return self.balance
+        
