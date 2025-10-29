@@ -1,6 +1,7 @@
 class Account:
     def __init__(self):
         self.balance = 0.0
+        self.history = []
 
     def outgoing_transfer(self, amount: float ):
         if amount <= 0:
@@ -26,4 +27,9 @@ class Account:
             return self.balance
         else:
             return self.balance
+
+    def hehe(self):
+        if self.balance > 100:
+            print("bogacz")
+    
         
