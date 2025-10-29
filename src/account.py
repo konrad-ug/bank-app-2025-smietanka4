@@ -28,8 +28,5 @@ class Account:
         else:
             return self.balance
 
-    def hehe(self):
-        if self.balance > 100:
-            print("bogacz")
-    
+    # przetestowana
         
