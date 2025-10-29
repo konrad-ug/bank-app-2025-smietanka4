@@ -28,7 +28,5 @@ class Account:
         else:
             return self.balance
 
-    def sigma(self):
-        if self.balance > 100:
-            self.balance = "bogacz"
+    # przetestowana
         
