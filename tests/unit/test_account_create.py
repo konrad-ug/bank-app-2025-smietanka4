@@ -24,6 +24,10 @@ class TestAccount:
         account = PersonalAccount("John", "Doe", '12345678911', 'PROM_XYZ')
         assert account.balance == 50.0
 
+    def test_promotion_incorrect(self):
+        account = PersonalAccount("John", "Doe", "1234567891", "PROM_XYZ")
+        assert account.balance == 0.0
+        
     def test_promotion_wrong_format_too_long(self):
         account = PersonalAccount("John", "Doe", '12345678911', "PROM_XYZABC")
         assert account.balance == 0.0
