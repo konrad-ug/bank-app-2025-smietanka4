@@ -2,6 +2,8 @@ from src.account import Account
 
 
 class PersonalAccount(Account):
+    outgoing_express_transfer_fee = 1.0
+
     def __init__(self, first_name, last_name, pesel, promo_code=None):
         self.first_name = first_name
         self.last_name = last_name
@@ -33,9 +35,11 @@ class PersonalAccount(Account):
             birth_year = 2000 + year_prefix
         return birth_year > 1960
     
-    def outgoing_express_transfer(self, amount):
-        fee = 1.0
-        return super().outgoing_express_transfer(amount, fee)
+    # kompatybilne z drugą wersją metody
+    # def outgoing_express_transfer(self, amount):
+    #     fee = 1.0
+    #     return super().outgoing_express_transfer(amount, fee)
+        
 
             
 
