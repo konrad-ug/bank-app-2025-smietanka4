@@ -5,9 +5,9 @@ class PersonalAccount(Account):
     outgoing_express_transfer_fee = 1.0
 
     def __init__(self, first_name, last_name, pesel, promo_code=None):
+        super().__init__()
         self.first_name = first_name
         self.last_name = last_name
-        self.balance = 0.0
         self.pesel = pesel if self.is_pesel_valid(pesel) else "Invalid"
         self.promo_code = self.is_promo_code_valid(promo_code)
 
