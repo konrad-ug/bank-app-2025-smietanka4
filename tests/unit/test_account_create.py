@@ -44,6 +44,15 @@ class TestAccount:
         account = PersonalAccount("John", "Doe", '02210112345', 'PROM_XYZ')
         assert account.balance == 50.0
 
+    def test_history_after_operations(self):
+        account = PersonalAccount("John", "Doe",'12345678911')
+        account.incoming_transfer(500)
+        account.outgoing_express_transfer(300)
+
+        assert account.history == [500, -300, -1]
+        assert account.balance == 199.0
+        
+
 
 
 
