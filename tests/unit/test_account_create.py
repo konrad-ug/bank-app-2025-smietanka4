@@ -58,7 +58,9 @@ class TestAccount:
         account.incoming_transfer(2000)    
         account.incoming_transfer(2500)    
 
-        account.submit_for_loan(3000)
+        result = account.submit_for_loan(3000)
+
+        assert result
 
         assert account.balance == 8500.0
 
@@ -70,7 +72,9 @@ class TestAccount:
         account.outgoing_transfer(1000)
         account.incoming_transfer(2500)
 
-        account.submit_for_loan(3000)
+        result = account.submit_for_loan(3000)
+
+        assert result
 
         assert account.balance == 10000.0
 
@@ -80,7 +84,9 @@ class TestAccount:
         account.outgoing_transfer(500)
         account.incoming_transfer(1000)
 
-        account.submit_for_loan(3000)
+        result = account.submit_for_loan(3000)
+
+        assert not result
 
         assert account.balance == 1500.0
 
@@ -91,7 +97,8 @@ class TestAccount:
         account.incoming_transfer(1000)
         account.outgoing_transfer(1000)
 
-        account.submit_for_loan(1000)
+        result = account.submit_for_loan(1000)
+        assert not result
 
         assert account.balance == 2000.0
 
@@ -104,7 +111,8 @@ class TestAccount:
         account.outgoing_transfer(1000)
         account.outgoing_transfer(1000)
 
-        account.submit_for_loan(2000)
+        result = account.submit_for_loan(2000)
+        assert not result
 
         assert account.balance == 1000.0
 
