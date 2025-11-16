@@ -36,17 +36,15 @@ class PersonalAccount(Account):
         return birth_year > 1960
 
     def submit_for_loan(self, amount: float):
-        if (self.history[-1] > 0) and (self.history[-2] > 0) and (self.history[-3] > 0):
+        if len(self.history) >= 3 and ((self.history[-1] > 0) and (self.history[-2] > 0) and (self.history[-3] > 0)):
             self.balance += amount
             return True
         elif len(self.history) >= 5:
             sum_of_last_5 = sum(self.history[-5:])
-
             if sum_of_last_5 > amount:
                 self.balance += amount
                 return True
-        else:
-            return False
+        return False
 
 
 
