@@ -11,7 +11,7 @@ class AccountRegistry:
         for account in self.accounts:
             if account.pesel == pesel:
                 return account
-            return None
+        return None
 
     def get_all_accounts(self):
         return self.accounts
