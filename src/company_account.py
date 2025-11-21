@@ -12,6 +12,15 @@ class CompanyAccount(Account):
         if nip and len(nip) == 10:
             return True
         return False
+
+    def take_loan(self, loan_amount) -> bool:
+        if (self.balance >= 2*loan_amount):
+            if -1775 in self.history:
+                self.balance += loan_amount
+                return True
+        return False
+
+
     
     # kompatybilne z drugą wersją metody
     # def outgoing_express_transfer(self, amount):
