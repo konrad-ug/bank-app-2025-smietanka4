@@ -58,8 +58,8 @@ def update_account(pesel):
     if not data:
         return jsonify({"error": "No data provided"}), 400
     
-    new_name = data['name']
-    new_surname = data['surname']
+    new_name = data.get('name', account.first_name)
+    new_surname = data.get('surname', account.last_name)
     print(f"Update account by pesel: {pesel} request received")
     registry.update_account(new_name, new_surname, pesel)
     return jsonify({"message": "Account updated"}), 200
