@@ -6,17 +6,23 @@ class TestApiCrud:
 
     @pytest.fixture(scope="function", autouse=True)
     def set_up(self):
-        account_data = {
+        self.account_data = {
             "name": "james",
             "surname": "hetfield",
             "pesel": "89092909825"
         }
-        response = requests.post(self.url, json=account_data)
+        requests.delete(f"{self.url}/{self.account_data['pesel']}")
+
+        response = requests.post(self.url, json=self.account_data)
         assert response.status_code == 201
+
         yield
-        for account in response.json():
-            pesel = account("pesel")
-            requests.delete(f"{self.url}/{pesel}")
+
+        all_account_response = requests.get(self.url)
+        if all_account_response.status_code == 200:
+            for account in all_account_response.json():
+                pesel = account["pesel"]
+                requests.delete(f"{self.url}/{pesel}")
 
     def test_create_account(self):
         account_data = {
@@ -24,6 +30,9 @@ class TestApiCrud:
             "surname": "hetfield",
             "pesel": "89092909825"
         }
+
+        requests.delete(f"{self.url}/{account_data['pesel']}")
+
         response = requests.post(self.url, json=account_data)
         assert response.status_code == 201
         assert response.json()["message"] == "Account created"
