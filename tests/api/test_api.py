@@ -32,7 +32,6 @@ class TestApiCrud:
         }
 
         requests.delete(f"{self.url}/{account_data['pesel']}")
-
         response = requests.post(self.url, json=account_data)
         assert response.status_code == 201
         assert response.json()["message"] == "Account created"
