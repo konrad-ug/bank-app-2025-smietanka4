@@ -1,7 +1,13 @@
+from pytest_mock import MockFixture
+import pytest
 from src.company_account import CompanyAccount
 
 class TestCompanyAccount:
-    def test_company_account_creation(self):
+    def test_company_account_creation(self, mocker: MockFixture):
+        # mocker.patch.object(CompanyAccount, "nip_api_validation", return_value=True)
+        mock = mocker.patch('src.company_account.requests.get')
+        mock.return_value.status_code = 200
+        mock.return_value.json.return_value = {"result": {"subject": {"statusVat": "Czynny"}}}
         company = CompanyAccount("UG", "1234567890")
         assert company.company_name == "UG"
         assert company.nip == "1234567890"
