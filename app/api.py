@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from src.account_registry import AccountRegistry
 from src.personal_account import PersonalAccount
+from src.company_account import CompanyAccount
 from src.account import Account
 
 app = Flask(__name__)
@@ -19,7 +20,6 @@ def create_account():
     account = PersonalAccount(data['name'], data['surname'], data['pesel'])
     registry.add_account(account)
     return jsonify({'message': "Account created"}), 201
-
 
 
 @app.route("/api/accounts", methods=['GET'])
