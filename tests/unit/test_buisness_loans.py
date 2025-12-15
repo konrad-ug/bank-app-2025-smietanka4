@@ -4,7 +4,17 @@ import pytest
 class TestAccount:
 
     @pytest.fixture
-    def account(self):
+    def account(self, mocker):
+        mock = mocker.patch('src.company_account.requests.get')
+        mock.return_value.status_code = 200
+        mock.return_value.json.return_value = {
+            "result": {
+                "subject": {
+                    "statusVat": "Czynny"
+                }
+            }
+        }
+
         account = CompanyAccount("UG", "1234567890")
         return account
 

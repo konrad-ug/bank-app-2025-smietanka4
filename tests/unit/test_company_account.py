@@ -3,11 +3,17 @@ import pytest
 from src.company_account import CompanyAccount
 
 class TestCompanyAccount:
-    def test_company_account_creation(self, mocker: MockFixture):
+
+    @pytest.fixture
+    def mock_api(self, mocker: MockFixture):
         # mocker.patch.object(CompanyAccount, "nip_api_validation", return_value=True)
         mock = mocker.patch('src.company_account.requests.get')
         mock.return_value.status_code = 200
         mock.return_value.json.return_value = {"result": {"subject": {"statusVat": "Czynny"}}}
+        return mock
+
+        
+    def test_company_account_creation(self, mock_api):        
         company = CompanyAccount("UG", "1234567890")
         assert company.company_name == "UG"
         assert company.nip == "1234567890"
@@ -21,7 +27,7 @@ class TestCompanyAccount:
         company = CompanyAccount("UG", "12345678901")
         assert company.nip == "Invalid"
 
-    def test_history_after_operations(self):
+    def test_history_after_operations(self, mock_api):
         company = CompanyAccount("UG", '1234567890')
         company.incoming_transfer(500)
         company.outgoing_express_transfer(300)

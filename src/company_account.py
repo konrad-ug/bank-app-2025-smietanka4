@@ -32,7 +32,7 @@ class CompanyAccount(Account):
         return False
 
     def nip_api_validation(self, nip: str) -> bool:
-        today = date.today().strftime("%Y-%m-d")
+        today = date.today().strftime("%Y-%m-%d")
         url = f"{self.MF_API_URL}/api/search/nip/{nip}?date={today}"
         print(f"Wysyłam zapytanie do: {url}")
 
