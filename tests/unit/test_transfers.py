@@ -1,8 +1,22 @@
 from src.account import Account
 from src.company_account import CompanyAccount
 from src.personal_account import PersonalAccount
+import pytest
 
 class TestTransfer:
+    @pytest.fixture(autouse=True)
+    def mock_mf_api(self, mocker):
+        mock = mocker.patch('src.company_account.requests.get')
+        mock.return_value.status_code = 200
+        mock.return_value.json.return_value = {
+            "result": {
+                "subject": {
+                    "statusVat": "Czynny"
+                }
+            }
+        }
+        return mock
+
     def test_incoming_transfer(self):
         account = Account()
         account.incoming_transfer(100)
