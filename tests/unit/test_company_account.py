@@ -34,6 +34,27 @@ class TestCompanyAccount:
 
         assert company.history == [500,-300, -5]
         assert company.balance == 195.0
+
+    def test_nip_api_validation_returns_false_for_non_active_vat(self,mocker):
+        mock = mocker.patch('src.company_account.requests.get')
+        mock.return_value.status_code = 200
+        mock.return_value.json.return_value = {
+            "result": {
+                "subject": {
+                    "statusVat": "Zwolniony"
+                }
+            }
+        }
+
+        with pytest.raises(ValueError, match="Company not registered!"):
+            CompanyAccount("Firma Zwolniona", "1234567890")
+
+    def test_nip_api_validation_returns_false_on_api_error(self, mocker):
+        mock = mocker.patch('src.company_account.requests.get')
+        mock.return_value.status_code = 500
+
+        with pytest.raises(ValueError, match="Company not registered!"):
+            CompanyAccount("Firma Błąd API", "1234567890")
     
 
 
