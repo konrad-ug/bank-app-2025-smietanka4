@@ -3,6 +3,7 @@ from src.account import Account
 
 class PersonalAccount(Account):
     outgoing_express_transfer_fee = 1.0
+    account_name = "Personal"
 
     def __init__(self, first_name, last_name, pesel, promo_code=None):
         super().__init__()
