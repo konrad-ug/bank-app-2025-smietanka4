@@ -5,6 +5,7 @@ from datetime import date
 
 class CompanyAccount(Account):
     outgoing_express_transfer_fee = 5.0
+    account_name = "Company"
 
     MF_API_URL = os.environ.get("BANK_APP_MF_URL", "https://wl-test.mf.gov.pl")
 
