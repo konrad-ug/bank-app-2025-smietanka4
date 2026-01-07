@@ -12,14 +12,14 @@ class TestApiPerf:
             "pesel": "89092909825"
         }
 
-        requests.delete(f"{self.url}/{self.account_data["pesel"]}")
+        requests.delete(f"{self.url}/{self.account_data['pesel']}")
 
         yield
 
         all_account_response = requests.get(self.url)
         if all_account_response.status_code == 200:
             for account in all_account_response.json():
-                pesel = account["pesel"]
+                pesel = account['pesel']
                 requests.delete(f"{self.url}/{pesel}")
 
     def test_account_creation_and_delete(self):
@@ -32,10 +32,10 @@ class TestApiPerf:
         for _ in range(100):
             creation = requests.post(self.url, json=self.account_data,timeout = 0.5)
             assert creation.status_code == 201
-            response = requests.get(f"{self.url}/{self.account_data["pesel"]}", timeout=0.5)
+            response = requests.get(f"{self.url}/{self.account_data['pesel']}", timeout=0.5)
             assert response.status_code == 200
 
-            delete = requests.delete(f"{self.url}/{self.account_data["pesel"]}", timeout=0.5)
+            delete = requests.delete(f"{self.url}/{self.account_data['pesel']}", timeout=0.5)
             assert delete.status_code == 200
 
     def test_account_creation_and_100_transfers(self):
@@ -56,7 +56,7 @@ class TestApiPerf:
         }
 
         for _ in range(100):
-            transfer = requests.post(f"{self.url}/{self.account_data["pesel"]}/transfer",json=self.transfer_data, timeout=0.5)
+            transfer = requests.post(f"{self.url}/{self.account_data['pesel']}/transfer",json=self.transfer_data, timeout=0.5)
             assert transfer.status_code == 200
 
             response = requests.get(f"{self.url}/{self.account_data['pesel']}", timeout=0.5)
@@ -72,6 +72,6 @@ class TestApiPerf:
 
         assert current_balance == expected_balance  
 
-        delete = requests.delete(f"{self.url}/{self.account_data["pesel"]}")
+        delete = requests.delete(f"{self.url}/{self.account_data['pesel']}")
         assert delete.status_code == 200
 
