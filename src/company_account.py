@@ -47,6 +47,8 @@ class CompanyAccount(Account):
                 return True
 
         return False
+
+
     
     # kompatybilne z drugą wersją metody
     # def outgoing_express_transfer(self, amount):

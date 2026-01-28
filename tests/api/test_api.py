@@ -40,3 +40,42 @@ class TestApiCrud:
         response = requests.get(self.url + "/count")
         assert response.status_code == 200
         assert response.json()["count"] == 1
+
+def test_persistence_flow():
+    base_url = "http://127.0.0.1:5000/api/accounts"
+    
+    pesel = "99010112345"
+    payload = {
+        "name": "Test",
+        "surname": "User",
+        "pesel": pesel
+    }
+    
+    requests.delete(f"{base_url}/{pesel}")
+
+    resp = requests.post(base_url, json=payload)
+    assert resp.status_code == 201
+
+    transfer_payload = {"amount": 50.0, "type": "incoming"}
+    requests.post(f"{base_url}/{pesel}/transfer", json=transfer_payload)
+
+    resp = requests.get(f"{base_url}/{pesel}")
+    data = resp.json()[0]
+    assert data['balance'] == 50.0
+
+    resp = requests.post(f"{base_url}/save")
+    assert resp.status_code == 200, f"Save failed: {resp.text}"
+
+    requests.delete(f"{base_url}/{pesel}")
+    resp = requests.get(f"{base_url}/{pesel}")
+    assert resp.status_code == 404
+
+    resp = requests.post(f"{base_url}/load")
+    assert resp.status_code == 200, f"Load failed: {resp.text}"
+    assert "Loaded" in resp.json()["message"]
+
+    resp = requests.get(f"{base_url}/{pesel}")
+    assert resp.status_code == 200
+    data = resp.json()[0]
+    assert data['balance'] == 50.0
+    assert data['name'] == "Test"
