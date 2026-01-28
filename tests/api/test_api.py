@@ -41,7 +41,7 @@ class TestApiCrud:
         assert response.status_code == 200
         assert response.json()["count"] == 1
 
-    def test_persistence_flow():
+    def test_persistence_flow(self):
         base_url = "http://127.0.0.1:5000/api/accounts"
         
         pesel = "99010112345"
