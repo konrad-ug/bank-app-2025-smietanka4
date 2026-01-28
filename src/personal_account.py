@@ -53,7 +53,7 @@ class PersonalAccount(Account):
             "last_name": self.last_name,
             "pesel": self.pesel,
             "balance": self.balance,
-            "history": self.history
+            "history": self.history,
             "type": "personal"
         }
 

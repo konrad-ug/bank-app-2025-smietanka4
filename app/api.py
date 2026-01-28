@@ -3,7 +3,7 @@ from src.account_registry import AccountRegistry
 from src.personal_account import PersonalAccount
 from src.company_account import CompanyAccount
 from src.account import Account
-from src.mongo_accouts_repository import MongoAccountsRepository
+from src.mongo_accounts_repository import MongoAccountsRepository
 
 app = Flask(__name__)
 registry = AccountRegistry()
@@ -112,7 +112,7 @@ def make_transfer(pesel):
     else:
         return jsonify({"error": "Insufficient funds or transfer failed"}), 422
 
-@app.route("/api/accounts/save", method=["POST"])
+@app.route("/api/accounts/save", methods=["POST"])
 def save_registry():
     current_accounts = registry.accounts
     try:
@@ -122,6 +122,7 @@ def save_registry():
         return jsonify({"error": str(e)}), 500
 
 @app.route("/api/accounts/load", methods=["POST"])
+def load_registry():
     try:
         loaded_accounts = accounts_repo.load_all()
         registry.accounts = []
