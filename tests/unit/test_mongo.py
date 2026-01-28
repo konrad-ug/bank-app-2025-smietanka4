@@ -3,6 +3,19 @@ from unittest.mock import MagicMock, patch
 from src.mongo_accounts_repository import MongoAccountsRepository
 from src.personal_account import PersonalAccount
 
+class TestMongoInit(unittest.TestCase):
+    @patch("src.mongo_accounts_repository.MongoClient")
+    def test_init_default(self, mock_client_cls):
+        mock_client = MagicMock()
+        mock_client_cls.return_value = mock_client
+        mock_db = MagicMock()
+        mock_client.__getitem__.return_value = mock_db
+        
+        repo = MongoAccountsRepository()
+        
+        mock_client_cls.assert_called()
+        self.assertEqual(repo.db, mock_db)
+
 class TestMongoAccountsRepository(unittest.TestCase):
     def setUp(self):
         self.mock_collection = MagicMock()
