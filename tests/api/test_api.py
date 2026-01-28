@@ -41,10 +41,9 @@ class TestApiCrud:
         assert response.status_code == 200
         assert response.json()["count"] == 1
 
-def test_persistence_flow():
+    def test_persistence_flow():
     base_url = "http://127.0.0.1:5000/api/accounts"
     
-    # 1 Create an account
     pesel = "99010112345"
     payload = {
         "name": "Test",
@@ -52,36 +51,29 @@ def test_persistence_flow():
         "pesel": pesel
     }
     
-    # Clean up potentially existing account from previous runs
     requests.delete(f"{base_url}/{pesel}")
 
     resp = requests.post(base_url, json=payload)
     assert resp.status_code == 201
 
-    # 2 Add mock history
     transfer_payload = {"amount": 50.0, "type": "incoming"}
     requests.post(f"{base_url}/{pesel}/transfer", json=transfer_payload)
 
-    # Verify balance
     resp = requests.get(f"{base_url}/{pesel}")
     data = resp.json()[0]
     assert data['balance'] == 50.0
 
-    # 4 Save to DB
     resp = requests.post(f"{base_url}/save")
     assert resp.status_code == 200
 
-    # 5 Clear memory
     requests.delete(f"{base_url}/{pesel}")
     resp = requests.get(f"{base_url}/{pesel}")
     assert resp.status_code == 404
 
-    # 6 Load from DB
     resp = requests.post(f"{base_url}/load")
     assert resp.status_code == 200
     assert "Loaded" in resp.json()["message"]
 
-    # 7 Verify account is back
     resp = requests.get(f"{base_url}/{pesel}")
     assert resp.status_code == 200
     data = resp.json()[0]
