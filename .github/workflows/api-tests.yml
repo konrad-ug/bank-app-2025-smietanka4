@@ -33,6 +33,7 @@ jobs:
     - name: Start Mongo
       run: |
         docker compose -f mongo.yml up -d
+        sleep 15
     - name: Start flask
       run: |
         export FLASK_APP=app/api.py
